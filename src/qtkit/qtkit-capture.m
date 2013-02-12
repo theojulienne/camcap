@@ -138,7 +138,7 @@ static void camcap_qtkit_device_request_format( camcap_native_device_t *native, 
 }
 
 static void camcap_qtkit_device_capture_start( camcap_native_device_t *native ) {
-	NSError *error = nil;
+	//NSError *error = nil;
 	
 	if ( native->capture_delegate == nil ) {
 		native->capture_delegate = [[[CamCapCaptureDelegate alloc] initWithNativeDevice:native] retain];

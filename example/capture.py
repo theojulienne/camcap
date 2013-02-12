@@ -5,7 +5,7 @@ import sys
 def enumerate_devices( ):
 	manager = CamCapManager( )
 	
-	num_devices = manager.device_count
+	num_devices = len(manager.devices)
 	
 	print 'Enumerating %d devices...' % (num_devices,)
 	
@@ -24,7 +24,7 @@ def capture_image( device_specifier, filename ):
 	
 	manager = CameraManager( )
 
-	num_devices = manager.device_count
+	num_devices = len(manager.devices)
 	
 	if chosen_device >= num_devices:
 		print >> sys.stderr, 'Error: No such device, run this program with no arguments to enumerate devices.'
