@@ -147,7 +147,8 @@ static void camcap_qtkit_device_capture_start( camcap_native_device_t *native ) 
 	
 	NSLog( @"performing initAndStartRunning" );
 	[native->capture_delegate prepare];
-	[native->capture_delegate performSelectorInBackground:@selector(startRunning) withObject:nil];
+	[native->capture_delegate startRunning];
+//	[native->capture_delegate performSelectorInBackground:@selector(startRunning) withObject:nil];
 //	[native->capture_delegate initAndStartRunning];
 }
 
@@ -156,18 +157,12 @@ static void camcap_qtkit_device_capture_stop( camcap_native_device_t *native ) {
 }
 
 static bool camcap_qtkit_device_capture_frame( camcap_native_device_t *native, camcap_frame_t *frame, float timeoutSeconds ) {
-	sleep( 2 );
-	
 	if ( ![native->capture_session isRunning] ) {
 		return false;
 	}
 	
 	frame->image_data = NULL;
-	[native->capture_delegate setFrame:frame];
-	
-	//CFRunLoopRunInMode( kCFRunLoopDefaultMode, timeoutSeconds, NO );
-	
-	[native->capture_delegate setFrame:nil];
+	[native->capture_delegate requestFrameFill:frame withTimeout:timeoutSeconds];
 	
 	return true;
 }

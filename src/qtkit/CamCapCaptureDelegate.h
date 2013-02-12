@@ -5,7 +5,7 @@
 
 - (id)initWithNativeDevice:(camcap_native_device_t *)nativeDevice;
 
-- (void)setFrame:(camcap_frame_t *)frame;
+- (void)requestFrameFill:(camcap_frame_t *)frame withTimeout:(float)timeoutSeconds;
 
 - (void)prepare;
 - (void)startRunning;
