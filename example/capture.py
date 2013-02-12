@@ -22,7 +22,7 @@ def capture_image( device_specifier, filename ):
 		print >> sys.stderr, 'Usage: %s <deviceIndex> <filename>' % (sys.argv[0],)
 		sys.exit( 1 )
 	
-	manager = CameraManager( )
+	manager = CamCapManager( )
 
 	num_devices = len(manager.devices)
 	

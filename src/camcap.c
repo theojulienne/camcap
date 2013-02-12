@@ -38,6 +38,10 @@ uint32_t camcap_device_count( void ) {
 }
 
 camcap_device_t *camcap_get_device_by_index( uint32_t index ) {
+	if ( index >= camcap_device_count( ) ) {
+		return NULL;
+	}
+	
 	camcap_native_device_t *native_device = camcap_native_functions->get_device_at_index( index );
 	if ( native_device == NULL ) {
 		return NULL; // eek

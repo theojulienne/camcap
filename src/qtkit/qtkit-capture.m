@@ -59,6 +59,10 @@ static uint32_t camcap_qtkit_get_num_capture_devices( void ) {
 }
 
 static camcap_native_device_t *camcap_qtkit_get_device_at_index( uint32_t index ) {
+	if ( index >= [enumerated_devices count] ) {
+		return NULL;
+	}
+	
 	QTCaptureDevice *device = [enumerated_devices objectAtIndex:index];
 	assert( device != nil );
 	
