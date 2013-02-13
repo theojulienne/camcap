@@ -44,13 +44,15 @@ def capture_image( device_specifier, filename ):
 	
 	device.capture_start( )
 	
-	for i in range( 10 ):
-		with device.capture_frame( timeout=2 ) as frame:
-			if frame is None:
-				print >> sys.stderr, 'No frame captured after waiting for 2 seconds.'
-				sys.exit( 1 )
+	with device.capture_frame( timeout=2 ) as frame:
+		if frame is None:
+			print >> sys.stderr, 'No frame captured after waiting for 2 seconds.'
+			sys.exit( 1 )
+	
+		print 'Got image %dx%d' % (frame.width, frame.height)
 		
-			print 'got image %dx%d' % (frame.width, frame.height)
+		import pyjpeg
+		pyjpeg.write_file( filename, frame.data, frame.width, frame.height, frame.stride, components=4, quality=80 )
 	
 	device.capture_stop( )
 	device.close( )
