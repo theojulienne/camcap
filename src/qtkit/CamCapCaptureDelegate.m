@@ -4,15 +4,6 @@
 
 #include "camcap-internal.h"
 
-@interface CamCapCaptureDelegate ()
-{
-	camcap_native_device_t *native;
-	camcap_frame_t *frame;
-	
-	NSMutableArray *frameQueue;
-}
-@end
-
 @implementation CamCapCaptureDelegate
 
 - (id)initWithNativeDevice:(camcap_native_device_t *)nativeDevice
