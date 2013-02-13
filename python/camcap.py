@@ -1,4 +1,4 @@
-from ctypes import cdll, c_void_p, c_uint, c_char_p, c_bool, c_float
+from ctypes import cdll, string_at, c_void_p, c_uint, c_char_p, c_bool, c_float
 import os
 
 class CamCapDevicePixelFormat:
@@ -15,7 +15,7 @@ class CamCapFrame(object):
 	def __exit__( self, exc_type, exc_value, traceback ):
 		self.manager.camcap.camcap_frame_destroy( self.frame_ptr )
 		self.frame_ptr = 0
-	
+
 	@property
 	def width( self ):
 		return self.manager.camcap.camcap_frame_get_width( self.frame_ptr )
@@ -23,6 +23,18 @@ class CamCapFrame(object):
 	@property
 	def height( self ):
 		return self.manager.camcap.camcap_frame_get_height( self.frame_ptr )
+
+	@property
+	def stride( self ):
+		return self.manager.camcap.camcap_frame_get_stride( self.frame_ptr )
+
+	@property
+	def data_ptr( self ):
+		return self.manager.camcap.camcap_frame_get_image_data( self.frame_ptr )
+
+	@property
+	def data( self ):
+		return string_at(self.data_ptr, self.stride * self.height)
 
 class CamCapDevice(object):
 	def __init__( self, manager, device_ptr ):
@@ -124,6 +136,12 @@ class CamCapManager(object):
 		self.camcap.camcap_frame_get_height.restype = c_uint
 		self.camcap.camcap_frame_get_height.argtypes = [c_void_p]
 		
+		self.camcap.camcap_frame_get_stride.restype = c_uint
+		self.camcap.camcap_frame_get_stride.argtypes = [c_void_p]
+		
+		self.camcap.camcap_frame_get_image_data.restype = c_void_p
+		self.camcap.camcap_frame_get_image_data.argtypes = [c_void_p]
+
 		self.camcap.camcap_init( )
 	
 	@property

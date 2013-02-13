@@ -50,9 +50,15 @@ def capture_image( device_specifier, filename ):
 			sys.exit( 1 )
 	
 		print 'Got image %dx%d' % (frame.width, frame.height)
+		sys.stdout.flush()
 		
+		# discard alpha
+		data = ''.join(b for i, b in enumerate(frame.data) if i % 4 != 0)
+		stride = frame.stride / 4 * 3
+		
+		print 'Writing to %r...' % (filename,)
 		import pyjpeg
-		pyjpeg.write_file( filename, frame.data, frame.width, frame.height, frame.stride, components=4, quality=80 )
+		pyjpeg.write_file( filename, data, frame.width, frame.height, stride )
 	
 	device.capture_stop( )
 	device.close( )
